@@ -13,20 +13,21 @@ import {
   Text,
 } from 'react-native';
 
-import {NavigationContainer} from '@react-navigation/native'
+import 'react-native-gesture-handler'
 
-import {createStore} from 'redux'
+import {createStore,applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
-import Thunk from 'redux-thunk'
-import AuthStack from './src/navigation/AuthStack'
+import Reducers from './src/redux/Reducers'
 
+import thunk from 'redux-thunk';
+
+import Appinit from './Appinit'
 const App= () => {
-  const store=createStore()
+
+  const store=createStore(Reducers,{},applyMiddleware(thunk))
   return (
-    <Provider>
-      <NavigationContainer>
-        <AuthStack/>
-      </NavigationContainer>
+    <Provider store={store}>
+      <Appinit/>
     </Provider>
   
   );

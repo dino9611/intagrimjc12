@@ -2,6 +2,8 @@ import React,{useState,useReducer} from 'react';
 import { View,StyleSheet } from 'react-native';
 import {Text,Icon,Input,Button} from 'react-native-elements'
 import * as Animatable from 'react-native-animatable';
+import {connect} from 'react-redux'
+import {UserRegister} from './../redux/Action'
 
 const reducers=(state,action)=>{
     switch(action.type){
@@ -16,11 +18,15 @@ const reducers=(state,action)=>{
 
 
 const Register = ({
-    params,navigation
+    params,navigation,error,UserRegister
 }) =>{
     const [state,dispatch]=useReducer(reducers,{email:'',username:'',password:'',conpassword:''})
     const [passHidden,setpassHidden]=useState(true)
     const [conpassHidden,setconpassHidden]=useState(true)
+
+    const onRegisterPress=()=>{
+        UserRegister(state)
+    }
 
     return (
         <View style={styles.LogcontainerStyle}>
@@ -95,11 +101,12 @@ const Register = ({
                     onChangeText={(text)=>dispatch({type:'Change-data',name:'conpassword',payload:text})}
                 />
             </View>
+            <Text style={{color:'red'}}>{error}</Text>
             <Button
                 title="Register"
                 containerStyle={{ width: '95%', marginBottom: 10 }}
                 buttonStyle={{ backgroundColor: 'black' }}
-                // onPress={onBtnRegisterPress}
+                onPress={onRegisterPress}
                 loading={false}
             />
             <Button
@@ -129,4 +136,11 @@ const styles=StyleSheet.create({
         width: '100%'
     }
 })
-export default Register;
+
+const MapStateToProps=(state)=>{
+    return{
+        Auth:state.Auth,
+        error:state.Auth.errorRegister
+    }
+}
+export default connect(MapStateToProps,{UserRegister}) (Register);

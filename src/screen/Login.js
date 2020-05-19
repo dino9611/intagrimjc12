@@ -4,7 +4,10 @@ import React,{useReducer} from 'react';
 import {View,StyleSheet } from 'react-native';
 import {Text,Icon,Input,Button} from 'react-native-elements'
 import * as Animatable from 'react-native-animatable';
-
+import {connect,useSelector,useDispatch} from 'react-redux'
+import {START_LOGIN} from './../redux/types'
+// import Asyncstorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-community/async-storage';
 const reducers=(state,action)=>{
     switch(action.type){
         case 'Change-data':
@@ -18,10 +21,16 @@ const reducers=(state,action)=>{
 
 
 const Login = ({
-    params,navigation
+   navigation
 }) =>{
+    const redDispatch=useDispatch()
+    const Auth=useSelector(state=>state.Auth)
     const [state,dispatch]=useReducer(reducers,{email:'',password:'',passHidden:true})
-    
+
+    const onLoginpress=()=>{
+        // redDispatch({type:START_LOGIN})
+    }
+    // console.log(loadingLogin)
     return (
         <View style={styles.LogcontainerStyle}>
             <Animatable.Text animation={'fadeInDown'} duration={2000}>
@@ -66,7 +75,8 @@ const Login = ({
                 title="Login"
                 containerStyle={{ width: '95%', marginBottom: 10 }}
                 buttonStyle={{ backgroundColor: 'black' }}
-                loading={false}
+                loading={Auth.loadingLogin}
+                onPress={onLoginpress}
             />
             <Button
                 title="Go to Register"
@@ -96,5 +106,7 @@ const styles=StyleSheet.create({
         width: '100%'
     }
 })
+
+
 
 export default Login;
