@@ -11,6 +11,20 @@ import{
 import AsyncStorage from '@react-native-community/async-storage'
 import {API_URL} from './../../support/ApiUrl'
 
+
+export const NotloginYet = () => {
+    return {
+        type: USER_LOGOUT
+    }
+}
+
+export const alreadyLogin = (user) => {
+    return {
+        type: LOGIN_USER_SUCCESS,
+        payload: user
+    }
+}
+
 export const UserRegister=({email,username,password,conpassword})=>{
     return (dispatch)=>{
         dispatch({ type: START_REGISTER })
@@ -25,7 +39,6 @@ export const UserRegister=({email,username,password,conpassword})=>{
                 .then((res)=>{
                     Axios.post(`${API_URL}/user/login`, { email, password })
                     .then(async (res) => {
-                        console.log(res.data)
                         try {
                             await AsyncStorage.setItem('usertoken', res.data.token);
                             dispatch({

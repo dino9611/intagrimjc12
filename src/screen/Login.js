@@ -1,11 +1,11 @@
-
-
 import React,{useReducer} from 'react';
 import {View,StyleSheet } from 'react-native';
 import {Text,Icon,Input,Button} from 'react-native-elements'
 import * as Animatable from 'react-native-animatable';
 import {connect,useSelector,useDispatch} from 'react-redux'
-import {START_LOGIN} from './../redux/types'
+import Axios from 'axios'
+import {API_URL} from './../support/ApiUrl'
+import {START_LOGIN,LOGIN_FAILED,LOGIN_USER_SUCCESS} from './../redux/types'
 // import Asyncstorage from '@react-native-community/async-storage'
 import AsyncStorage from '@react-native-community/async-storage';
 const reducers=(state,action)=>{
@@ -28,7 +28,37 @@ const Login = ({
     const [state,dispatch]=useReducer(reducers,{email:'',password:'',passHidden:true})
 
     const onLoginpress=()=>{
-        // redDispatch({type:START_LOGIN})
+        redDispatch({type:START_LOGIN})
+        const {email,password}=state
+        if(
+            email!==''
+            &&password!==''
+        ){
+            Axios.post(`${API_URL}/user/login`, { email, password })
+            .then(async (res) => {
+                try {
+                    await AsyncStorage.setItem('usertoken', res.data.token);
+                    redDispatch({
+                        type: LOGIN_USER_SUCCESS,
+                        payload: res.data
+                    });
+                } catch (err) {
+                    redDispatch({ 
+                        type: LOGIN_FAILED, 
+                        payload: err.message 
+                    });
+                }   
+            })
+            .catch((err) => {
+                console.log(err)
+                redDispatch({ 
+                    type: LOGIN_FAILED, 
+                    payload: err.response.data.message 
+                });
+            });
+        }else{
+            redDispatch({type:LOGIN_FAILED,payload:'ada yang kosong'})
+        }
     }
     // console.log(loadingLogin)
     return (
@@ -71,6 +101,7 @@ const Login = ({
                     secureTextEntry={state.passHidden}
                 />
             </View>
+            <Text style={{color:'red'}}>{Auth.errorLogin}</Text>
             <Button
                 title="Login"
                 containerStyle={{ width: '95%', marginBottom: 10 }}
