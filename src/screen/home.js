@@ -1,11 +1,11 @@
 import React from 'react';
-import {View, FlatList, Image, StatusBar,TouchableWithoutFeedback} from 'react-native'
+import {View, FlatList, Image, StatusBar,TouchableWithoutFeedback,VirtualizedList} from 'react-native'
 import {  Icon } from 'react-native-elements';
 import { Header,Card, CardItem, Thumbnail, Text, Button, Left, Body, Right,Icon as Naticon } from 'native-base';
 import {connect} from 'react-redux'
-import {getListPost} from './../redux/Action'
+import {getListPost,tambahTreshold} from './../redux/Action'
 import {API_URL} from './../support/ApiUrl'
-class Home extends React.Component {
+class Home extends React.PureComponent {
     state = {  }
 
     componentDidMount(){
@@ -18,6 +18,9 @@ class Home extends React.Component {
     }
 
     renderItemPost = ({ item }) => {
+        // console.log(item.item)
+        // const {data}=item
+        // console.log(data)
         return (
             <View style={{ marginVertical: 10, marginHorizontal: 10 }}>
                 <Card>
@@ -45,6 +48,7 @@ class Home extends React.Component {
         )
     }
 
+s
 
     render() {
         // console.log(this.props.Post)
@@ -69,19 +73,28 @@ class Home extends React.Component {
                     </Right>
                 </Header>
                 <FlatList
-                    data={this.props.Post.postList}
+                    data={this.props.postdata}
                     renderItem={this.renderItemPost}
                     refreshing={this.props.Post.homeRefreshing} 
                     onRefresh={this.onRefresh}
+                    keyExtractor={item => item.id}
+                    initialNumToRender={3}
+                    onEndReached={()=>this.props.tambahTreshold()}
+                    onEndReachedThreshold={1}
+                    // getItemCount={()=>this.props.Post.postList.length}
+                    // getItem={this.getItem}
                 />
             </View>
           );
     }
 }
 const Mapstatetoprops=(state)=>{
+    var newarr=state.Post.postList.filter((val,index)=>index<state.Post.treshold)
     return{
-        Post:state.Post
+        Post:state.Post,
+        postdata:newarr,
+        treshold:state.Post.treshold
     }
 }
-export default connect(Mapstatetoprops,{getListPost}) (Home);
+export default connect(Mapstatetoprops,{getListPost,tambahTreshold}) (Home);
 

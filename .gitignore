@@ -54,6 +54,8 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
-
+/src/screen/postphoto2.js
+/src/screen/profile2.js
+/src/screen/editprofile2.js
 # CocoaPods
 /ios/Pods/

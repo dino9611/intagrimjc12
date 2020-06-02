@@ -31,6 +31,13 @@ export const getListPost=()=>{
     }
 }
 
+export const tambahTreshold=()=>{
+    return{
+        type:'Tambahtreshold'
+    }
+}
+
+
 export const selectProfilePost = (post) => {
     return {
         type: SELECT_POST_PROFILE,

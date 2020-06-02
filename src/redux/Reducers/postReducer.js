@@ -6,6 +6,7 @@ import {
 
 const INITIAL_STATE = {
     homeRefreshing: false,
+    treshold:5,
     postList: [],
     selectedPostDetailProfile: null,
 }
@@ -15,9 +16,11 @@ export default (state=INITIAL_STATE, action) => {
         case HOME_REFRESHING : 
             return { ...state, homeRefreshing: true }
         case FILL_POST_LIST :
-            return { ...state, postList: action.payload, homeRefreshing: false }
+            return { ...state, postList: action.payload, homeRefreshing: false,}
         case SELECT_POST_PROFILE:
             return {...state,selectedPostDetailProfile:action.payload}
+        case 'Tambahtreshold':
+            return {...state,treshold:state.treshold+5}
         default :
             return state;
     }

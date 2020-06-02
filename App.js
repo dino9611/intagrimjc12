@@ -23,7 +23,7 @@ import thunk from 'redux-thunk';
 
 import Appinit from './Appinit'
 const App= () => {
-
+  console.disableYellowBox=true
   const store=createStore(Reducers,{},applyMiddleware(thunk))
   return (
     <Provider store={store}>

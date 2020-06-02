@@ -4,7 +4,10 @@ import Home from './../screen/home'
 import Explore from './../screen/explore'
 import Like from './../screen/like'
 import Post from './../screen/postphoto'
+import Post2 from './../screen/postphoto2'
 import Profile from './../screen/profile'
+import Profile2 from './../screen/profile2'
+import EditProfile2 from './../screen/editprofile2'
 import { Icon } from 'react-native-elements';
 
 const Tab=createBottomTabNavigator()
@@ -50,8 +53,8 @@ export default ()=>{
             <Tab.Screen name='Home' component={Home}/>
             <Tab.Screen name='Explore' component={Explore}/>
             <Tab.Screen name='Post' component={Post}/>
-            <Tab.Screen name='Like' component={Like}/>
-            <Tab.Screen name='Profile' component={Profile}/>
+            <Tab.Screen name='Like' component={EditProfile2}/>
+            <Tab.Screen name='Profile' component={Profile2}/>
         </Tab.Navigator>
     )
 }
