@@ -4,9 +4,17 @@ import { Button, Input, Header, Icon } from 'react-native-elements';
 import {connect} from 'react-redux'
 import {OnInputCHange,onImagePostChange,postingPhoto} from './../redux/Action'
 import ImagePicker from 'react-native-image-crop-picker';
-
+import axios from 'axios'
+import AsyncStorage from '@react-native-community/async-storage'
+import {API_URL} from './../support/ApiUrl'
 class Post extends React.Component {
-    state = {  }
+    state = {
+        error:'',
+        loading:false,
+        image:null,
+        caption : '', 
+
+      }
 
     onBtnSelectGaleryPress=()=>{
         ImagePicker.openPicker({
@@ -17,6 +25,7 @@ class Post extends React.Component {
         }).then(image => {
             console.log(image);
             this.props.onImagePostChange(image);
+            this.setState({image:image})
         }).catch(err => {
             console.log(err)
         });
@@ -41,6 +50,43 @@ class Post extends React.Component {
         this.props.postingPhoto(this.props)
     }
 
+    // onBtnPostImagePress=async ()=>{
+    //     this.setState({error:'',loading:true})
+    //     try {
+    //         console.log(this.state.image.path)
+    //         const image = {
+    //             uri: this.state.image.path,
+    //             type: 'image/jpeg',
+    //             name: 'photo.jpg',
+    //         }
+    //         const token=await AsyncStorage.getItem('usertoken')
+    //         console.log(image)
+    //         console.log(this.state.image.path)
+    //         console.log(token)
+    //         var formdata = new FormData();
+    //         var options = {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data',
+    //                 'Authorization': `Bearer ${token}`
+    //             }
+    //         }
+    //         console.log(this.props.userid.id)
+    //         var data = {
+    //             caption: this.state.caption,
+    //             userId: this.props.userid.id
+    //         }
+    //         formdata.append('image', image)
+    //         formdata.append('data', JSON.stringify(data))
+    //         console.log(image)
+    //         console.log(data)
+    //         const res = await axios.post(API_URL + '/post/addpost', formdata, options)
+    //         console.log('berhasil')
+    //         this.setState({ loading: false })
+    //     } catch (error) {
+    //         console.log(error)
+    //         this.setState({ loading: false, error: error.Error })
+    //     }
+    // }
     render() {
         return (
             <View style={{flex:1}}> 
@@ -105,7 +151,7 @@ class Post extends React.Component {
                         />
                     </View>
                     <View style={{ marginVertical: 20, marginHorizontal: 15 }}>
-                        <Text style={{ color: 'red' }}>{this.props.error}</Text>
+                        <Text style={{ color: 'red' }}>{this.state.error}</Text>
                         <Button
                             icon={
                                 <Icon

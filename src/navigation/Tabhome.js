@@ -8,6 +8,7 @@ import Post2 from './../screen/postphoto2'
 import Profile from './../screen/profile'
 import Profile2 from './../screen/profile2'
 import EditProfile2 from './../screen/editprofile2'
+import ProfileNav from './ProfileNav'
 import { Icon } from 'react-native-elements';
 
 const Tab=createBottomTabNavigator()
@@ -25,7 +26,7 @@ export default ()=>{
                             ? 'home'
                             : 'home';
                         sizes=focused?30:size
-                    } else if (route.name === 'Profile') {
+                    } else if (route.name === 'ProfileNav') {
                         iconName = focused ? 'account-box' : 'account-box';
                         sizes=focused?30:size
                     }else if(route.name==='Explore'){
@@ -53,8 +54,8 @@ export default ()=>{
             <Tab.Screen name='Home' component={Home}/>
             <Tab.Screen name='Explore' component={Explore}/>
             <Tab.Screen name='Post' component={Post}/>
-            <Tab.Screen name='Like' component={EditProfile2}/>
-            <Tab.Screen name='Profile' component={Profile2}/>
+            <Tab.Screen name='Like' component={Like}/>
+            <Tab.Screen name='ProfileNav' component={ProfileNav}/>
         </Tab.Navigator>
     )
 }

@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import {NavigationContainer} from '@react-navigation/native'
-import TabHome from './src/navigation/Tabhome'
+import DrawerNav from './src/navigation/drawerNav'
 import AuthStack from './src/navigation/AuthStack'
 import {connect} from 'react-redux'
 import {View,StyleSheet} from 'react-native'
@@ -58,7 +58,7 @@ const Appinit=(props)=>{
         <NavigationContainer>
             {
                 props.Auth.islogin?
-                <TabHome/>
+                <DrawerNav/>
                 :
                 <AuthStack/>           
             }

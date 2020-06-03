@@ -79,6 +79,7 @@ s
                     onRefresh={this.onRefresh}
                     keyExtractor={item => item.id}
                     initialNumToRender={3}
+                    // initialScrollIndex={3}
                     onEndReached={()=>this.props.tambahTreshold()}
                     onEndReachedThreshold={1}
                     // getItemCount={()=>this.props.Post.postList.length}

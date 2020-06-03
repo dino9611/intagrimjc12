@@ -46,9 +46,10 @@ export const postingPhoto = ({ image, caption,userid }) => {
             }
             data.append('image', img)
             data.append('data', JSON.stringify({ caption,userId:userid }))
+            console.log(userid)
+            console.log(img)
 
             const res = await axios.post(API_URL + '/post/addpost', data, options) 
-            
             dispatch({ type: POST_PHOTO_SUCCESS })
             alert('photo berhasil di upload')
         } catch (err) {
