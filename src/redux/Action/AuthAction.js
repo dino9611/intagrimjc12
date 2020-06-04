@@ -25,6 +25,15 @@ export const alreadyLogin = (user) => {
     }
 }
 
+export const UserLogout=()=>{
+    return async (dispatch)=>{
+        await AsyncStorage.removeItem('usertoken')
+        dispatch({type:USER_LOGOUT})
+    }
+}
+
+
+
 export const UserRegister=({email,username,password,conpassword})=>{
     return (dispatch)=>{
         dispatch({ type: START_REGISTER })

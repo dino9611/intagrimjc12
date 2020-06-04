@@ -30,7 +30,7 @@ const Appinit=(props)=>{
             .then((res) => {
                 props.alreadyLogin(res.data);
             }).catch((err) => {
-                props.notLoginYet();
+                props.NotLoginYet();
             }).finally(()=>{
                 setloading(false)
             })
