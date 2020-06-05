@@ -3,15 +3,13 @@ import { View, Text, StyleSheet, Platform, Image, TouchableWithoutFeedback } fro
 import { Header, ListItem, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { API_URL } from '../support/ApiUrl';
-import {selectProfilePost} from './../redux/Action'
+import {selectProfilePost,initEditProfile} from './../redux/Action'
 
-const Profile = ({Post,Auth,navigation,selectProfilePost}) =>{
-
+const Profile = ({Post,Auth,navigation,selectProfilePost,initEditProfile}) =>{
     const OntoDetailPost=(phototerpilih)=>{
         selectProfilePost(phototerpilih)
         navigation.navigate('PostDetailProfile',{dino:phototerpilih})
     }
-
     const renderListPost=()=>{
         let i = 2;
         return Post.map((val,index)=>{
@@ -35,6 +33,11 @@ const Profile = ({Post,Auth,navigation,selectProfilePost}) =>{
         })
     }
 
+    const onEditclick=()=>{
+        // console.log(Auth)
+        initEditProfile(Auth)
+        navigation.navigate('EditProfile')
+    }
 
     return(
         <View style={styles.containerStyle} >
@@ -71,7 +74,7 @@ const Profile = ({Post,Auth,navigation,selectProfilePost}) =>{
                 <Text>{Auth.bio}</Text>
             </View>
             <Button
-                title='edit Profile'
+                title='Edit Profile'
                 containerStyle={{ 
                     marginVertical: 15, 
                     marginHorizontal: 15, 
@@ -82,6 +85,7 @@ const Profile = ({Post,Auth,navigation,selectProfilePost}) =>{
                 buttonStyle={{ borderColor: 'gray' }}
                 titleStyle={{ color: 'tomato' }}
                 type='outline'
+                onPress={onEditclick}
             />
             <View style={{
                 flexDirection: 'row',
@@ -111,4 +115,4 @@ const MapStatetoProps=({Post,Auth})=>{
     }
 }
 
-export default connect(MapStatetoProps,{selectProfilePost}) (Profile);
+export default connect(MapStatetoProps,{selectProfilePost,initEditProfile}) (Profile);
